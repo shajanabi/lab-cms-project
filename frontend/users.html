@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Users - LabCMS</title>
+	<style>
+		:root {
+			--navy: #172554;
+			--blue: #2563eb;
+			--blue-light: #dbeafe;
+			--page: #f5f7fb;
+			--text: #1f2937;
+			--muted: #64748b;
+			--line: #e2e8f0;
+			--white: #ffffff;
+		}
+
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			background: var(--page);
+			color: var(--text);
+			font-family: Arial, sans-serif;
+			min-height: 100vh;
+		}
+
+		.sidebar {
+			background: var(--navy);
+			color: var(--white);
+			min-height: 100vh;
+			padding: 24px 14px;
+			position: fixed;
+			width: 230px;
+		}
+
+		.brand {
+			align-items: center;
+			display: flex;
+			gap: 11px;
+			margin: 0 10px 38px;
+		}
+
+		.brand-mark {
+			align-items: center;
+			background: var(--blue);
+			border-radius: 7px;
+			display: flex;
+			font-size: 20px;
+			font-weight: bold;
+			height: 38px;
+			justify-content: center;
+			width: 38px;
+		}
+
+		.brand-name {
+			font-size: 20px;
+		}
+
+		.brand-label {
+			color: #bfdbfe;
+			font-size: 11px;
+			margin-top: 3px;
+		}
+
+		.navigation {
+			display: grid;
+			gap: 6px;
+		}
+
+		.navigation a {
+			align-items: center;
+			border-radius: 7px;
+			color: #dbeafe;
+			display: flex;
+			gap: 12px;
+			padding: 12px 14px;
+			text-decoration: none;
+		}
+
+		.navigation a:hover,
+		.navigation a.active {
+			background: var(--blue);
+			color: var(--white);
+		}
+
+		.navigation .icon {
+			font-size: 18px;
+			text-align: center;
+			width: 22px;
+		}
+
+		.logout {
+			border-top: 1px solid #2d3d69;
+			margin-top: 22px;
+			padding-top: 22px !important;
+		}
+
+		.main {
+			margin-left: 230px;
+			min-height: 100vh;
+		}
+
+		.topbar {
+			align-items: center;
+			background: var(--white);
+			border-bottom: 1px solid var(--line);
+			display: flex;
+			justify-content: space-between;
+			min-height: 76px;
+			padding: 16px 34px;
+		}
+
+		.topbar h1 {
+			font-size: 23px;
+		}
+
+		.topbar p {
+			color: var(--muted);
+			font-size: 13px;
+			margin-top: 5px;
+		}
+
+		.admin {
+			align-items: center;
+			display: flex;
+			gap: 10px;
+		}
+
+		.avatar {
+			align-items: center;
+			background: var(--blue-light);
+			border-radius: 50%;
+			color: var(--blue);
+			display: flex;
+			font-weight: bold;
+			height: 36px;
+			justify-content: center;
+			width: 36px;
+		}
+
+		.admin small {
+			color: var(--muted);
+			display: block;
+			font-size: 11px;
+			margin-top: 2px;
+		}
+
+		.content {
+			margin: 0 auto;
+			max-width: 1180px;
+			padding: 34px;
+		}
+
+		.page-heading {
+			margin-bottom: 24px;
+		}
+
+		.page-heading h2 {
+			font-size: 28px;
+			margin-bottom: 7px;
+		}
+
+		.page-heading p {
+			color: var(--muted);
+		}
+
+		.toolbar {
+			align-items: center;
+			background: var(--white);
+			border: 1px solid var(--line);
+			border-radius: 8px;
+			display: flex;
+			gap: 14px;
+			justify-content: space-between;
+			margin-bottom: 18px;
+			padding: 18px;
+		}
+
+		.search-wrap {
+			flex: 1;
+			max-width: 430px;
+			position: relative;
+		}
+
+		.search-wrap span {
+			color: var(--muted);
+			left: 13px;
+			position: absolute;
+			top: 11px;
+		}
+
+		#searchInput {
+			border: 1px solid #cbd5e1;
+			border-radius: 6px;
+			font-size: 14px;
+			padding: 11px 12px 11px 36px;
+			width: 100%;
+		}
+
+		#searchInput:focus {
+			border-color: var(--blue);
+			outline: 2px solid var(--blue-light);
+		}
+
+		.user-count {
+			color: var(--muted);
+			font-size: 13px;
+			white-space: nowrap;
+		}
+
+		.table-shell {
+			background: var(--white);
+			border: 1px solid var(--line);
+			border-radius: 8px;
+			overflow-x: auto;
+		}
+
+		table {
+			border-collapse: collapse;
+			min-width: 650px;
+			width: 100%;
+		}
+
+		th,
+		td {
+			border-bottom: 1px solid var(--line);
+			padding: 16px 20px;
+			text-align: left;
+		}
+
+		th {
+			background: #f8fafc;
+			color: #475569;
+			font-size: 12px;
+			letter-spacing: 0.04em;
+			text-transform: uppercase;
+		}
+
+		td {
+			font-size: 14px;
+		}
+
+		tbody tr:last-child td {
+			border-bottom: 0;
+		}
+
+		.user-name {
+			font-weight: bold;
+		}
+
+		.username,
+		.role {
+			color: var(--muted);
+		}
+
+		.status {
+			align-items: center;
+			color: #15803d;
+			display: inline-flex;
+			font-size: 13px;
+			gap: 7px;
+		}
+
+		.status::before {
+			background: #22c55e;
+			border-radius: 50%;
+			content: "";
+			height: 8px;
+			width: 8px;
+		}
+
+		.empty-state {
+			color: var(--muted);
+			display: none;
+			padding: 30px;
+			text-align: center;
+		}
+
+		@media (max-width: 700px) {
+			.sidebar {
+				min-height: auto;
+				padding: 12px;
+				position: static;
+				width: 100%;
+			}
+
+			.brand {
+				margin-bottom: 16px;
+			}
+
+			.navigation {
+				grid-template-columns: repeat(3, 1fr);
+			}
+
+			.navigation a {
+				font-size: 12px;
+				justify-content: center;
+				padding: 10px 5px;
+			}
+
+			.navigation a .icon {
+				display: none;
+			}
+
+			.logout {
+				border: 0;
+				margin: 0;
+				padding-top: 10px !important;
+			}
+
+			.main {
+				margin-left: 0;
+			}
+
+			.topbar,
+			.content {
+				padding: 20px;
+			}
+
+			.admin-info {
+				display: none;
+			}
+
+			.toolbar {
+				align-items: stretch;
+				flex-direction: column;
+			}
+
+			.search-wrap {
+				max-width: none;
+			}
+		}
+	</style>
+<link rel="stylesheet" href="ui.css">
+</head>
+<body>
+	<aside class="sidebar">
+		<div class="brand">
+			<div class="brand-mark">L</div>
+			<div>
+				<div class="brand-name">LabCMS</div>
+				<div class="brand-label">Computer Laboratory</div>
+			</div>
+		</div>
+
+		<nav class="navigation" aria-label="Main navigation">
+			<a href="index.html"><span class="icon">🏠</span><span>Home</span></a>
+			<a href="computer.html"><span class="icon">💻</span><span>Computers</span></a>
+			<a href="scripts.html"><span class="icon">📜</span><span>Bash Scripts</span></a>
+			<a href="monitor.html"><span class="icon">🖥️</span><span>Monitor</span></a>
+			<a href="users.html" class="active" aria-current="page"><span class="icon">👥</span><span>Users</span></a>
+			<a href="#" class="logout"><span class="icon">↪️</span><span>Logout</span></a>
+		</nav>
+	</aside>
+
+	<main class="main">
+		<header class="topbar">
+			<div>
+				<h1>Users</h1>
+				<p>Manage access to the LabCMS administrator interface</p>
+			</div>
+			<div class="admin">
+				<div class="avatar">A</div>
+				<div class="admin-info">
+					<strong>Admin</strong>
+					<small>Administrator</small>
+				</div>
+			</div>
+		</header>
+
+		<section class="content">
+			<div class="page-heading">
+				<h2>System Users</h2>
+				<p>View the users who can access this laboratory management system.</p>
+			</div>
+
+			<div class="toolbar">
+				<label class="search-wrap" for="searchInput">
+					<span>🔍</span>
+					<input id="searchInput" type="search" placeholder="Search users..." oninput="filterUsers()">
+				</label>
+				<span class="user-count" id="userCount">3 users</span>
+			</div>
+
+			<div class="table-shell">
+				<table>
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Username</th>
+							<th>Role</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody id="userTableBody">
+						<tr>
+							<td class="user-name">Administrator</td>
+							<td class="username">admin</td>
+							<td class="role">Administrator</td>
+							<td><span class="status">Active</span></td>
+						</tr>
+						<tr>
+							<td class="user-name">Lab Assistant</td>
+							<td class="username">lab.assistant</td>
+							<td class="role">Lab Assistant</td>
+							<td><span class="status">Active</span></td>
+						</tr>
+						<tr>
+							<td class="user-name">System Operator</td>
+							<td class="username">operator</td>
+							<td class="role">Operator</td>
+							<td><span class="status">Active</span></td>
+						</tr>
+					</tbody>
+				</table>
+				<p class="empty-state" id="emptyState">No users match your search.</p>
+			</div>
+		</section>
+	</main>
+
+	<script>
+		function filterUsers() {
+			var query = document.getElementById("searchInput").value.toLowerCase();
+			var rows = document.querySelectorAll("#userTableBody tr");
+			var visibleUsers = 0;
+
+			rows.forEach(function (row) {
+				var matches = row.textContent.toLowerCase().includes(query);
+				row.style.display = matches ? "" : "none";
+				if (matches) {
+					visibleUsers += 1;
+				}
+			});
+
+			document.getElementById("userCount").textContent = visibleUsers + (visibleUsers === 1 ? " user" : " users");
+			document.getElementById("emptyState").style.display = visibleUsers === 0 ? "block" : "none";
+		}
+	</script>
+<script>document.querySelectorAll('.logout').forEach(function(button){button.addEventListener('click',function(event){event.preventDefault();localStorage.removeItem('labcmsLoggedIn');localStorage.removeItem('labcmsComputers');localStorage.removeItem('labcmsScripts');window.location.href='login.html'})});</script>
+</body>
+</html>

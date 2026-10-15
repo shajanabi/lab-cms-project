@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Add Computer - LabCMS</title>
+<style>
+:root{--navy:#172554;--blue:#2563eb;--light:#eff6ff;--page:#f5f7fb;--text:#1f2937;--muted:#64748b;--line:#e2e8f0;--white:#fff}*{box-sizing:border-box;margin:0;padding:0}body{background:var(--page);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}.sidebar{background:var(--navy);color:var(--white);min-height:100vh;padding:24px 14px;position:fixed;width:230px}.brand{align-items:center;display:flex;gap:11px;margin:0 10px 38px}.brand-mark{align-items:center;background:var(--blue);border-radius:7px;display:flex;font-size:20px;font-weight:bold;height:38px;justify-content:center;width:38px}.brand-name{font-size:20px}.brand-label{color:#bfdbfe;font-size:11px;margin-top:3px}.navigation{display:grid;gap:6px}.navigation a{align-items:center;border-radius:7px;color:#dbeafe;display:flex;gap:12px;padding:12px 14px;text-decoration:none}.navigation a:hover,.navigation a.active{background:var(--blue);color:#fff}.icon{font-size:18px;text-align:center;width:22px}.logout{border-top:1px solid #2d3d69;margin-top:22px;padding-top:22px!important}.main{margin-left:230px;min-height:100vh}.topbar{align-items:center;background:#fff;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;min-height:76px;padding:16px 34px}.topbar h1{font-size:23px}.topbar p{color:var(--muted);font-size:13px;margin-top:5px}.admin{align-items:center;display:flex;gap:10px}.avatar{align-items:center;background:var(--light);border-radius:50%;color:var(--blue);display:flex;font-weight:bold;height:36px;justify-content:center;width:36px}.admin small{color:var(--muted);display:block;font-size:11px;margin-top:2px}.content{margin:0 auto;max-width:800px;padding:34px}.heading{margin-bottom:24px}.heading h2{font-size:28px;margin-bottom:7px}.heading p{color:var(--muted)}.form-box{background:#fff;border:1px solid var(--line);border-radius:8px;padding:26px}.field{margin-bottom:20px}.field label{display:block;font-size:13px;font-weight:bold;margin-bottom:8px}.field input,.field select{border:1px solid #cbd5e1;border-radius:6px;font-size:14px;padding:12px;width:100%}.field input:focus,.field select:focus{border-color:var(--blue);outline:2px solid var(--light)}.actions{display:flex;gap:10px;margin-top:26px}.button{border:0;border-radius:6px;cursor:pointer;font-size:14px;padding:11px 18px;text-decoration:none}.save{background:var(--blue);color:#fff}.cancel{background:#e2e8f0;color:#334155}.message{color:#15803d;font-size:13px;margin-top:16px}@media(max-width:700px){.sidebar{min-height:auto;padding:12px;position:static;width:100%}.brand{margin-bottom:16px}.navigation{grid-template-columns:repeat(3,1fr)}.navigation a{font-size:12px;justify-content:center;padding:10px 5px}.navigation .icon{display:none}.logout{border:0;margin:0;padding-top:10px!important}.main{margin-left:0}.topbar,.content{padding:20px}.admin-info{display:none}}
+</style>
+<link rel="stylesheet" href="ui.css">
+</head>
+<body>
+<aside class="sidebar"><div class="brand"><div class="brand-mark">L</div><div><div class="brand-name">LabCMS</div><div class="brand-label">Computer Laboratory</div></div></div><nav class="navigation" aria-label="Main navigation"><a href="index.html"><span class="icon">🏠</span><span>Home</span></a><a class="active" aria-current="page" href="computer.html"><span class="icon">💻</span><span>Computers</span></a><a href="scripts.html"><span class="icon">📜</span><span>Bash Scripts</span></a><a href="monitor.html"><span class="icon">🖥️</span><span>Monitor</span></a><a href="users.html"><span class="icon">👥</span><span>Users</span></a><a class="logout" href="#"><span class="icon">↪️</span><span>Logout</span></a></nav></aside>
+<main class="main"><header class="topbar"><div><h1>Add Computer</h1><p>Register a Linux computer in the laboratory</p></div><div class="admin"><div class="avatar">A</div><div class="admin-info"><strong>Admin</strong><small>Administrator</small></div></div></header><section class="content"><div class="heading"><h2>Computer Details</h2><p>Enter the basic connection details for this computer.</p></div><form class="form-box" id="computerForm"><div class="field"><label for="pcName">PC Name</label><input id="pcName" name="pcName" required placeholder="Example: PC-04"></div><div class="field"><label for="ipAddress">IP Address</label><input id="ipAddress" name="ipAddress" required placeholder="Example: 192.168.1.104" pattern="^(?:\d{1,3}\.){3}\d{1,3}$"></div><div class="field"><label for="status">Status</label><select id="status" name="status"><option value="Online">Online</option><option value="Offline">Offline</option></select></div><div class="actions"><button class="button save" type="submit">Save Computer</button><a class="button cancel" href="computer.html">Cancel</a></div><p class="message" id="message" role="status"></p></form></section></main>
+<script></script>
+<script>document.querySelectorAll('.logout').forEach(function(button){button.addEventListener('click',function(event){event.preventDefault();localStorage.removeItem('labcmsLoggedIn');localStorage.removeItem('labcmsComputers');localStorage.removeItem('labcmsScripts');window.location.href='login.html'})});</script>
+<script>
+var COMPUTER_API = 'http://127.0.0.1:8000/api/computers/';
+document.getElementById('computerForm').addEventListener('submit', async function (event) {
+	event.preventDefault();
+	var message = document.getElementById('message');
+	var data = {
+		pc_name: document.getElementById('pcName').value.trim(),
+		ip_address: document.getElementById('ipAddress').value.trim(),
+		status: document.getElementById('status').value
+	};
+
+	try {
+		var response = await fetch(COMPUTER_API, {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify(data)
+		});
+		var result = await response.json();
+		if (!response.ok) {
+			throw new Error(Object.values(result).flat().join(' '));
+		}
+		window.location.href = 'computer.html';
+	} catch (error) {
+		message.textContent = error.message || 'Unable to save the computer. Start the Django backend and try again.';
+		message.style.color = '#b91c1c';
+	}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - LabCMS</title>
+<style>
+:root{--navy:#172554;--blue:#2563eb;--light:#eff6ff;--page:#f5f7fb;--text:#1f2937;--muted:#64748b;--line:#cbd5e1;--white:#fff}*{box-sizing:border-box;margin:0;padding:0}body{align-items:center;background:linear-gradient(135deg,#eff6ff,#f8fafc);color:var(--text);display:flex;font-family:Arial,sans-serif;justify-content:center;min-height:100vh;padding:20px}.login-card{background:var(--white);border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 14px 34px rgba(23,37,84,.1);max-width:420px;padding:34px;width:100%}.brand{align-items:center;display:flex;gap:11px;margin-bottom:30px}.brand-mark{align-items:center;background:var(--blue);border-radius:7px;color:#fff;display:flex;font-size:20px;font-weight:bold;height:40px;justify-content:center;width:40px}.brand-name{font-size:22px}.brand-label{color:var(--muted);font-size:12px;margin-top:3px}.heading{margin-bottom:24px}.heading h1{font-size:26px;margin-bottom:7px}.heading p{color:var(--muted);font-size:14px}.field{margin-bottom:18px}.field label{display:block;font-size:13px;font-weight:bold;margin-bottom:8px}.field input{border:1px solid var(--line);border-radius:6px;font-size:14px;padding:12px;width:100%}.field input:focus{border-color:var(--blue);outline:2px solid var(--light)}.login-button{background:var(--blue);border:0;border-radius:6px;color:#fff;cursor:pointer;font-size:14px;font-weight:bold;padding:12px;width:100%}.login-button:hover{background:#1d4ed8}.message{color:#b91c1c;font-size:13px;margin-top:14px;min-height:18px}.note{color:var(--muted);font-size:12px;line-height:1.5;margin-top:22px;text-align:center}
+</style>
+<link rel="stylesheet" href="ui.css">
+</head>
+<body>
+<main class="login-card">
+<div class="brand"><div class="brand-mark">L</div><div><div class="brand-name">LabCMS</div><div class="brand-label">Computer Laboratory</div></div></div>
+<div class="heading"><h1>Login</h1><p>Sign in to the administrator interface.</p></div>
+<form id="loginForm"><div class="field"><label for="username">Username</label><input id="username" autocomplete="username" required></div><div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required></div><button class="login-button" type="submit">Login</button><p class="message" id="message" role="alert"></p></form>
+<p class="note">Frontend prototype only. User authentication will be connected to the backend later.</p>
+</main>
+<script>document.getElementById('loginForm').addEventListener('submit',function(event){event.preventDefault();var username=document.getElementById('username').value.trim();var password=document.getElementById('password').value;var message=document.getElementById('message');if(!username||!password){message.textContent='Enter your username and password.';return}localStorage.setItem('labcmsLoggedIn','true');window.location.href='index.html'});</script>
+</body>
+</html>

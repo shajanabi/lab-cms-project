@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Computers - LabCMS</title>
+<style>
+:root{--navy:#172554;--blue:#2563eb;--light:#eff6ff;--page:#f5f7fb;--text:#1f2937;--muted:#64748b;--line:#e2e8f0;--white:#fff;--green:#15803d;--red:#b91c1c}*{box-sizing:border-box;margin:0;padding:0}body{background:var(--page);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}.sidebar{background:var(--navy);color:#fff;min-height:100vh;padding:24px 14px;position:fixed;width:230px}.brand{align-items:center;display:flex;gap:11px;margin:0 10px 38px}.brand-mark{align-items:center;background:var(--blue);border-radius:7px;display:flex;font-size:20px;font-weight:bold;height:38px;justify-content:center;width:38px}.brand-name{font-size:20px}.brand-label{color:#bfdbfe;font-size:11px;margin-top:3px}.navigation{display:grid;gap:6px}.navigation a{align-items:center;border-radius:7px;color:#dbeafe;display:flex;gap:12px;padding:12px 14px;text-decoration:none}.navigation a:hover,.navigation a.active{background:var(--blue);color:#fff}.icon{font-size:18px;text-align:center;width:22px}.logout{border-top:1px solid #2d3d69;margin-top:22px;padding-top:22px!important}.main{margin-left:230px;min-height:100vh}.topbar{align-items:center;background:#fff;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;min-height:76px;padding:16px 34px}.topbar h1{font-size:23px}.topbar p{color:var(--muted);font-size:13px;margin-top:5px}.admin{align-items:center;display:flex;gap:10px}.avatar{align-items:center;background:var(--light);border-radius:50%;color:var(--blue);display:flex;font-weight:bold;height:36px;justify-content:center;width:36px}.admin small{color:var(--muted);display:block;font-size:11px;margin-top:2px}.content{margin:0 auto;max-width:1180px;padding:34px}.heading{align-items:flex-end;display:flex;justify-content:space-between;margin-bottom:24px}.heading h2{font-size:28px;margin-bottom:7px}.heading p{color:var(--muted)}.button{background:var(--blue);border:0;border-radius:6px;color:#fff;cursor:pointer;font-size:14px;padding:11px 16px;text-decoration:none}.toolbar{align-items:center;background:#fff;border:1px solid var(--line);border-radius:8px;display:flex;gap:14px;justify-content:space-between;margin-bottom:18px;padding:16px}.toolbar input{border:1px solid #cbd5e1;border-radius:6px;font-size:14px;padding:11px 12px;width:360px}.toolbar input:focus{border-color:var(--blue);outline:2px solid var(--light)}.computer-count{color:var(--muted);font-size:13px}.table-shell{background:#fff;border:1px solid var(--line);border-radius:8px;overflow-x:auto}table{border-collapse:collapse;min-width:700px;width:100%}th,td{border-bottom:1px solid var(--line);padding:16px 20px;text-align:left}th{background:#f8fafc;color:#475569;font-size:12px;letter-spacing:.04em;text-transform:uppercase}td{font-size:14px}tbody tr:last-child td{border-bottom:0}.status{align-items:center;display:inline-flex;font-size:13px;gap:7px}.status:before{background:currentColor;border-radius:50%;content:'';height:8px;width:8px}.online{color:var(--green)}.offline{color:var(--red)}.action{border:0;border-radius:5px;cursor:pointer;font-size:12px;margin-right:5px;padding:7px 10px}.edit{background:#fef3c7;color:#92400e}.remove{background:#fee2e2;color:var(--red)}.empty{color:var(--muted);display:none;padding:28px;text-align:center}@media(max-width:700px){.sidebar{min-height:auto;padding:12px;position:static;width:100%}.brand{margin-bottom:16px}.navigation{grid-template-columns:repeat(3,1fr)}.navigation a{font-size:12px;justify-content:center;padding:10px 5px}.navigation .icon{display:none}.logout{border:0;margin:0;padding-top:10px!important}.main{margin-left:0}.topbar,.content{padding:20px}.admin-info{display:none}.heading{align-items:flex-start;flex-direction:column;gap:15px}.toolbar{align-items:stretch;flex-direction:column}.toolbar input{width:100%}}
+</style>
+<link rel="stylesheet" href="ui.css">
+</head>
+<body>
+<aside class="sidebar"><div class="brand"><div class="brand-mark">L</div><div><div class="brand-name">LabCMS</div><div class="brand-label">Computer Laboratory</div></div></div><nav class="navigation" aria-label="Main navigation"><a href="index.html"><span class="icon">🏠</span><span>Home</span></a><a class="active" aria-current="page" href="computer.html"><span class="icon">💻</span><span>Computers</span></a><a href="scripts.html"><span class="icon">📜</span><span>Bash Scripts</span></a><a href="monitor.html"><span class="icon">🖥️</span><span>Monitor</span></a><a href="users.html"><span class="icon">👥</span><span>Users</span></a><a class="logout" href="#"><span class="icon">↪️</span><span>Logout</span></a></nav></aside>
+<main class="main"><header class="topbar"><div><h1>Computers</h1><p>Manage computers connected to the laboratory network</p></div><div class="admin"><div class="avatar">A</div><div class="admin-info"><strong>Admin</strong><small>Administrator</small></div></div></header><section class="content"><div class="heading"><div><h2>Computer List</h2><p>Only basic computer connection details are shown.</p></div><a class="button" href="add-computer.html">+ Add Computer</a></div><div class="toolbar"><input id="searchInput" type="search" placeholder="Search computers..." oninput="renderComputers()"><span class="computer-count" id="computerCount"></span></div><div class="table-shell"><table><thead><tr><th>PC Name</th><th>IP Address</th><th>Status</th><th>Actions</th></tr></thead><tbody id="computerRows"><tr data-name="PC-01" data-ip="192.168.1.101" data-status="Online"><td><strong>PC-01</strong></td><td>192.168.1.101</td><td><span class="status online">Online</span></td><td><button class="action edit" onclick="editComputer(this)">Edit</button><button class="action remove" onclick="removeComputer(this)">Remove</button></td></tr><tr data-name="PC-02" data-ip="192.168.1.102" data-status="Online"><td><strong>PC-02</strong></td><td>192.168.1.102</td><td><span class="status online">Online</span></td><td><button class="action edit" onclick="editComputer(this)">Edit</button><button class="action remove" onclick="removeComputer(this)">Remove</button></td></tr><tr data-name="PC-03" data-ip="192.168.1.103" data-status="Offline"><td><strong>PC-03</strong></td><td>192.168.1.103</td><td><span class="status offline">Offline</span></td><td><button class="action edit" onclick="editComputer(this)">Edit</button><button class="action remove" onclick="removeComputer(this)">Remove</button></td></tr></tbody></table><p class="empty" id="emptyState">No computers match your search.</p></div></section></main>
+<script>var storedComputers=JSON.parse(localStorage.getItem('labcmsComputers')||'[]');storedComputers.forEach(function(item){addComputerRow(item)});function addComputerRow(item){var row=document.createElement('tr');row.dataset.name=item.name;row.dataset.ip=item.ip;row.dataset.status=item.status;row.innerHTML='<td><strong>'+item.name+'</strong></td><td>'+item.ip+'</td><td><span class="status '+(item.status==='Online'?'online':'offline')+'">'+item.status+'</span></td><td><button class="action edit" onclick="editComputer(this)">Edit</button><button class="action remove" onclick="removeComputer(this)">Remove</button></td>';document.getElementById('computerRows').appendChild(row)}function renderComputers(){var query=document.getElementById('searchInput').value.toLowerCase();var rows=document.querySelectorAll('#computerRows tr');var shown=0;rows.forEach(function(row){var matches=(row.dataset.name+' '+row.dataset.ip+' '+row.dataset.status).toLowerCase().includes(query);row.style.display=matches?'':'none';if(matches){shown++}});document.getElementById('computerCount').textContent=shown+(shown===1?' computer':' computers');document.getElementById('emptyState').style.display=shown?'none':'block'}function removeComputer(button){if(confirm('Remove this computer?')){button.closest('tr').remove();renderComputers()}}function editComputer(button){var row=button.closest('tr');var name=prompt('PC Name',row.dataset.name);if(name===null){return}var ip=prompt('IP Address',row.dataset.ip);if(ip===null){return}row.dataset.name=name.trim();row.dataset.ip=ip.trim();row.children[0].innerHTML='<strong>'+row.dataset.name+'</strong>';row.children[1].textContent=row.dataset.ip;renderComputers()}renderComputers();</script>
+<script>document.querySelectorAll('.logout').forEach(function(button){button.addEventListener('click',function(event){event.preventDefault();localStorage.removeItem('labcmsLoggedIn');localStorage.removeItem('labcmsComputers');localStorage.removeItem('labcmsScripts');window.location.href='login.html'})});</script>
+<script>
+var COMPUTER_API = 'http://127.0.0.1:8000/api/computers/';
+var computerRows = document.getElementById('computerRows');
+
+function escapeComputerText(value) {
+	return String(value).replace(/[&<>"']/g, function (character) {
+		return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'}[character];
+	});
+}
+
+function renderApiComputers(computers) {
+	computerRows.innerHTML = '';
+	computers.forEach(function (computer) {
+		var row = document.createElement('tr');
+		row.dataset.id = computer.id;
+		row.dataset.name = computer.pc_name;
+		row.dataset.ip = computer.ip_address;
+		row.dataset.status = computer.status;
+		row.innerHTML = '<td><strong>' + escapeComputerText(computer.pc_name) + '</strong></td>' +
+			'<td>' + escapeComputerText(computer.ip_address) + '</td>' +
+			'<td><span class="status ' + (computer.status === 'Online' ? 'online' : 'offline') + '">' + escapeComputerText(computer.status) + '</span></td>' +
+			'<td><button class="action edit" onclick="editComputer(this)">Edit</button><button class="action remove" onclick="removeComputer(this)">Remove</button></td>';
+		computerRows.appendChild(row);
+	});
+	renderComputers();
+}
+
+async function loadApiComputers() {
+	try {
+		var response = await fetch(COMPUTER_API);
+		if (!response.ok) throw new Error('The computer API is unavailable.');
+		var data = await response.json();
+		renderApiComputers(data);
+	} catch (error) {
+		document.getElementById('computerCount').textContent = 'Backend unavailable';
+		document.getElementById('emptyState').textContent = 'Start the Django backend to load computers.';
+		document.getElementById('emptyState').style.display = 'block';
+	}
+}
+
+window.removeComputer = async function (button) {
+	var row = button.closest('tr');
+	if (!confirm('Remove this computer?')) return;
+	var response = await fetch(COMPUTER_API + row.dataset.id + '/', {method: 'DELETE'});
+	if (!response.ok) { alert('Unable to remove this computer.'); return; }
+	row.remove();
+	renderComputers();
+};
+
+window.editComputer = async function (button) {
+	var row = button.closest('tr');
+	var name = prompt('PC Name', row.dataset.name);
+	if (name === null) return;
+	var ip = prompt('IP Address', row.dataset.ip);
+	if (ip === null) return;
+	var response = await fetch(COMPUTER_API + row.dataset.id + '/', {
+		method: 'PATCH',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({pc_name: name.trim(), ip_address: ip.trim()})
+	});
+	if (!response.ok) { alert('Unable to update this computer.'); return; }
+	loadApiComputers();
+};
+
+loadApiComputers();
+</script>
+</body>
+</html>
